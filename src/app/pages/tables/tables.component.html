@@ -1,0 +1,106 @@
+<div class="header bg-gradient-danger pb-6 pt-4 pt-md-6">
+  <div class="container-fluid">
+  </div>
+</div>
+
+<br>
+<br>
+<div class="card-body">
+<!-- Page content -->
+<div class="container-fluid mt--7">
+  <!-- Table -->
+  <div class="row">
+    <div class="col">
+      <div class="card shadow">
+        <div class="card-header border-0">
+          <h3 class="mb-0">Estudiantes registrados</h3>
+        </div>
+        
+        <div *ngIf="!cargando && eArray.length>0">
+          <div class="search-box">
+            <input type="search" placeholder="Nombre" (keyup)="buscarEstudiantes(termino.value)" #termino />
+            <button type="submit" class="search-btn"><i class="fa fa-search"></i></button>
+            <!-- <input type="search" placeholder="No. telefónico" (keyup)=buscarCelulares(termino.value) #termino />
+            
+            <button type="submit" class="search-btn"><i class="fa fa-search"></i></button> -->
+          </div>
+          <br>
+          <div  class="table">
+            <table class="table align-items-center table-flush" [hidden]="!cargando && eArray.length === 0">
+              <thead class="thead-light">
+                <tr >
+                  <th scope="col">Nombre</th>
+                  <th scope="col" class="text-center">F. nacimiento</th>
+                  <th scope="col" class="text-center">Experiencia</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let e of eArray">
+                  <th scope="row">
+                    <div class="media align-items-center">
+                      <a href="javascript:void(0)" class="avatar rounded-circle mr-3">
+                        <img alt="Image placeholder" src="../assets/img/man.png">
+                      </a>
+                      <div class="media-body">
+                        <span class="mb-0 text-sm">{{e.nombre}} </span>
+                      </div>
+                    </div>
+                  </th>
+                  <td class="text-center">
+                    {{e.fecha_nacimiento | date}}
+                  </td>
+                  <td class="text-center">
+                    {{e.experiencia}}
+                  </td>
+                  <td class="text-right">
+                    <div ngbDropdown placement="bottom-right">
+                      <a class="btn btn-sm btn-icon-only text-light"  ngbDropdownToggle>
+                        <i class="fas fa-ellipsis-v"></i>
+                      </a>
+                      <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
+                        <a class="dropdown-item" (click)="open(content,e)" href="javascript:void(0)">Modificar &nbsp;<img src="assets/img/pencil.png" width="15" height="15" alt=""></a>
+                        <a class="dropdown-item" (click)="eliminar(e)" href="javascript:void(0)">Eliminar &nbsp;<img src="assets/img/delete.png" width="15" height="15"></a>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table> 
+          </div>
+        </div>
+        <div class="alert alert-dark text-center mt-3 animated fadeIn faster" *ngIf="!cargando && eArray.length === 0">
+          <h4 class="alert-heading">No hay datos</h4>
+          <p>
+              <i class="fa fa-exclamation fa-2x"></i>
+          </p>
+        </div>
+        
+        <div class="alert alert-info text-center mt-3 animated fadeIn faster" *ngIf="cargando">
+          <h4 class="alert-heading">Cargando</h4>
+          <p>
+              <i class="fa fa-sync-alt fa-spin fa-2x"></i>
+          </p>
+          <p class="mb-0">
+              Espere por favor
+          </p>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <app-crear-estudiante [mostrar]="false" [estudiante]="estudiante"></app-crear-estudiante>
+  </div>
+</ng-template>
+  
